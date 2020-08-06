@@ -1,8 +1,13 @@
 import React from 'react'
 
 const OpCode = ({ opCode }) => {
+	let example = opCode[1].example
+	if (example) {
+		example = example.split(',')
+	}
+	console.log(example)
 	return (
-		<div className="opcode-container">
+		<div id={opCode[0]} className="opcode-container">
 			<div className="opcode-name">
 				<h1>{opCode[0]}</h1>
 			</div>
