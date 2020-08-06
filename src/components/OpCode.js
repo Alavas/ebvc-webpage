@@ -5,7 +5,6 @@ const OpCode = ({ opCode }) => {
 	if (example) {
 		example = example.split(',')
 	}
-	console.log(example)
 	return (
 		<div id={opCode[0]} className="opcode-container">
 			<div className="opcode-name">
