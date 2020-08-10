@@ -1,22 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import OpCode from '../components/OpCode'
-
-const gistURL =
-	'https://gist.githubusercontent.com/Alavas/6ca6a9e3b49bc781f8ad49a807a82dcd/raw/2fe730575f79504601c35d132f1c74f5044b884c/ebvc-opcodes.json'
+import Search from '../components/Search'
+import OpCodeTable from './OpCodeTable'
 
 const OpCodes = () => {
-	const [instructions, setInstructions] = useState({})
+	const opcodes = useSelector((state) => state.opcodes)
+	const selected = useSelector((state) => state.selected)
+	//Make sure that we start at the top of the page.
 	useEffect(() => {
-		fetch(gistURL)
-			.then((response) => response.json())
-			.then((res) => setInstructions(res))
+		window.scrollTo(0, 0)
 	}, [])
 	return (
-		<React.Fragment>
-			{Object.entries(instructions).map((instruction, index) => (
-				<OpCode key={index} opCode={instruction} />
-			))}
-		</React.Fragment>
+		<div id="content">
+			<div className="opcodes-container">
+				<OpCodeTable opcodes={opcodes} />
+				<Search />
+				{Object.entries(opcodes).map((opcode, index) => (
+					<OpCode
+						key={index}
+						opCode={opcode}
+						selected={opcode[0] === selected}
+					/>
+				))}
+			</div>
+		</div>
 	)
 }
 

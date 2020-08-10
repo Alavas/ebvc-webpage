@@ -1,22 +1,25 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { SELECT_OCPCODE } from '../actions'
 
 const Search = () => {
 	const [name, setName] = useState('')
-
+	const dispatch = useDispatch()
 	const handleSubmit = (evt) => {
 		evt.preventDefault()
-		const opcode = document.getElementById(name.toUpperCase())
+		const opcode = document.getElementById(name)
 		//If nothing is entered go to the top.
-		console.log(name)
 		if (name === '') {
 			setName('')
+			dispatch(SELECT_OCPCODE(''))
 			window.scrollTo({ top: 0, behavior: 'smooth' })
 		} else if (opcode) {
-			const yOffset = -90
-			const y =
-				opcode.getBoundingClientRect().top + window.pageYOffset + yOffset
-
-			window.scrollTo({ top: y, behavior: 'smooth' })
+			dispatch(SELECT_OCPCODE(name))
+			opcode.scrollIntoView({
+				behavior: 'smooth',
+				block: 'center',
+				inline: 'center',
+			})
 		}
 	}
 	return (
@@ -29,7 +32,7 @@ const Search = () => {
 						value={name}
 						onFocus={() => setName('')}
 						onBlur={() => setName('')}
-						onChange={(e) => setName(e.target.value)}
+						onChange={(e) => setName(e.target.value.toUpperCase())}
 					/>
 				</label>
 				<input type="submit" value="Search" />
